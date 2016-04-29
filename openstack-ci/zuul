@@ -1,0 +1,4 @@
+zuul_merger srvice:
+  zuul_merger service will run as zuul user, so the ssh_public key of this 
+user should be added to gerrit. Also the host key of gerrit should be added
+to known_hosts
