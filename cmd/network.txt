@@ -1,0 +1,2 @@
+netstat -anpt|grep 80   #check whether 80 port is listening
+service iptables stop   #stop iptables in old centos
