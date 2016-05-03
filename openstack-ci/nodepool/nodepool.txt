@@ -1,0 +1,2 @@
+1. nodepool-builder service didn't start up. can not use pip install nodepool using PYPI. No buildpool-builder found in /usr/local/bin. 
+ pip installed nodepool database is different than the git clone version. We need to drop nodepool database and re-create it.
