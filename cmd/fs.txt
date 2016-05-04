@@ -1,1 +1,2 @@
 umount -fl /opt/dib_tmp/image.sP2dgAbg/mnt/dev
+du -c dict | grep total #find out dictionary capacity

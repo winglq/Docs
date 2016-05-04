@@ -1,0 +1,3 @@
+#write file in shell
+cat <<EOF >>"$localrc_file"
+EOF
