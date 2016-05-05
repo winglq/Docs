@@ -1,0 +1,2 @@
+third package path: /usr/local/lib/python2.7/dist-packages/
+python setup.py bdist --help-formats #show bdist format 
