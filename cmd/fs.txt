@@ -1,2 +1,59 @@
 umount -fl /opt/dib_tmp/image.sP2dgAbg/mnt/dev
 du -c dict | grep total #find out dictionary capacity
+vi /etc/fstab #file system table
+
+https://www.howtoforge.com/linux_lvm_p2
+pvcreate /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 # phyiscal volume create
+pvremove /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 # phyiscal volume remvoe
+pvdisplay
+vgcreate fileserver /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 # volume group created
+
+vgscan
+vgrename fileserver data
+vgremove data
+
+lvcreate --name share --size 40G fileserver
+
+lvdisplay
+lvscan
+
+lvrename fileserver media films
+
+lvremove /dev/fileserver/films
+
+lvextend -L1.5G /dev/fileserver/media
+lvreduce -L1G /dev/fileserver/media
+
+Resize Logical Volumes And Their Filesystems
+umount /var/share
+lvextend -L50G /dev/fileserver/share
+e2fsck -f /dev/fileserver/share
+resize2fs /dev/fileserver/share
+mount /dev/fileserver/share /var/share
+
+shrink:
+umount /var/share
+e2fsck -f /dev/fileserver/share
+resize2fs /dev/fileserver/share 10485760
+lvreduce -L40G /dev/fileserver/share
+mount /dev/fileserver/share /var/share
+
+add pv:
+pvcreate /dev/sdf1
+vgextend fileserver /dev/sdf1
+vgdisplay
+
+remove pv:
+pvmove /dev/sdb1 /dev/sdf1 #  move data to sdf1
+vgreduce fileserver /dev/sdb1
+pvremove /dev/sdb1
+
+create raid 1
+mdadm --create /dev/md0 --auto=yes -l 1 -n 2 /dev/sdc1 missing
+mdadm --create /dev/md1 --auto=yes -l 1 -n 2 /dev/sde1 missing
+pvcreate /dev/md0 /dev/md1
+....
+mdadm --manage /dev/md0 --add /dev/sdb1
+mdadm --manage /dev/md1 --add /dev/sdd1
+cat /proc/mdstat # check raid state
+
